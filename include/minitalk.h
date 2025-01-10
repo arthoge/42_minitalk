@@ -6,15 +6,15 @@
 /*   By: aoger <aoger@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:37:45 by aoger             #+#    #+#             */
-/*   Updated: 2025/01/10 00:10:32 by aoger            ###   ########.fr       */
+/*   Updated: 2025/01/10 16:31:32 by aoger            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include <signal.h>
 # include <unistd.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <stdio.h>
 
