@@ -3,6 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -D_DEFAULT_SOURCE
 NAME = minitalk
 
 G_LIBFT_DIR = g_libft
+G_LIBFT = $(G_LIBFT_DIR)/libft.a
 LIBFT = -L$(G_LIBFT_DIR) -lft
 
 OBJ_DIR = obj
@@ -25,23 +26,24 @@ all: $(NAME)
 
 $(NAME): client server
 
-client: $(OBJ)
+$(G_LIBFT):
 	make -C $(G_LIBFT_DIR)
-	$(CC) $(OBJ_DIR)/src/client.o $(OBJ_DIR)/src/utils.o $(LIBFT) -o client
 
-server: $(OBJ)
-	make -C $(G_LIBFT_DIR)
-	$(CC) $(OBJ_DIR)/src/server.o $(OBJ_DIR)/src/utils.o $(LIBFT) -o server
+client: $(OBJ_DIR)/src/client.o $(OBJ_DIR)/src/utils.o $(G_LIBFT)
+	$(CC) $^ $(LIBFT) -o $@
+
+server: $(OBJ_DIR)/src/server.o $(OBJ_DIR)/src/utils.o $(G_LIBFT)
+	$(CC) $^ $(LIBFT) -o $@
 
 # bonus: client_bonus server_bonus
 
-# client_bonus: $(OBJ_BONUS)
+# client_bonus: $(OBJ_DIR)/src/client_bonus.o $(OBJ_DIR)/src/utils.o
 # 	make -C $(G_LIBFT_DIR)
-# 	$(CC) $(OBJ_DIR)/src/client_bonus.o $(OBJ_DIR)/src/utils.o $(LIBFT) -o client
+# 	$(CC) $^ $(LIBFT) -o client
 
-# server_bonus: $(OBJ_BONUS)
+# server_bonus: $(OBJ_DIR)/src/server_bonus.o $(OBJ_DIR)/src/utils.o
 # 	make -C $(G_LIBFT_DIR)
-# 	$(CC) $(OBJ_DIR)/src/server_bonus.o $(OBJ_DIR)/src/utils.o $(LIBFT) -o server
+# 	$(CC) $^ $(LIBFT) -o server
 
 clean:
 	make clean -C $(G_LIBFT_DIR)
@@ -49,7 +51,7 @@ clean:
 
 fclean: clean
 	make fclean -C $(G_LIBFT_DIR)
-	rm -f client server #
+	rm -f client server
 #	rm -f client_bonus server_bonus
 
 re: fclean all
