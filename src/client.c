@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_bonus.c                                     :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aoger <aoger@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:37:41 by aoger             #+#    #+#             */
-/*   Updated: 2025/01/13 17:19:48 by aoger            ###   ########.fr       */
+/*   Updated: 2025/04/26 16:34:37 by aoger            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,18 @@ static void	ft_ack_handler(int sig)
 static void	ft_send_char(int pid, unsigned char c)
 {
 	int	i;
+	int	res;
 
 	i = 0;
 	while (i < 8)
 	{
 		g_ack_received = 0;
 		if (c & (1 << i))
-			kill(pid, SIGUSR1);
+			res = kill(pid, SIGUSR1);
 		else
-			kill(pid, SIGUSR2);
+			res = kill(pid, SIGUSR2);
+		if (res == -1)
+			ft_exit_error("Invalid server PID or server not running\n");
 		while (!g_ack_received)
 			usleep(50);
 		i++;
