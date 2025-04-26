@@ -16,14 +16,6 @@
 - The server uses a signal handler to process incoming bits and reconstruct characters.
 - The client waits for an acknowledgment from the server before sending the next bit, using a global variable to track acknowledgment.
 
-## About the Signal Queue
-
-During the development, I initially implemented a queue structure (`t_signal_queue`) in the server to buffer incoming signals. This was an early approach to ensure data integrity during message transmission, especially in case multiple signals arrived before being processed.
-
-However, after introducing a global variable and an acknowledgment mechanism (where the client waits for the server's confirmation before sending the next bit), the queue became unnecessary. The acknowledgment ensures that signals are processed one at a time, preventing data loss or overlap.
-
-Despite this, I decided to leave the queue code in the project as a trace of the initial design and as a demonstration of one way to handle potential signal overflow or race conditions.
-
 ## Usage
 
 1. **Compile the project:**
@@ -42,7 +34,6 @@ make
 ## Notes
 - Only standard UNIX signals are used for communication.
 - The project demonstrates low-level inter-process communication and synchronization.
-- The queue implementation in the server is not strictly necessary with the current acknowledgment mechanism but is left for educational purposes.
 
 ## Screenshot
 ![screenshot](screenshot/screenshot.png)
